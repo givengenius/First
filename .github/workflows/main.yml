@@ -10,3 +10,4 @@ jobs:
       - name: show system
         run: |
           which python3
+          which jq
