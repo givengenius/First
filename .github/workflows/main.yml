@@ -4,12 +4,11 @@ on: workflow_dispatch
 
 jobs:
   info:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: show system
         run: |
-          uname -a
-          cat /etc/os-release
-          lscpu
+          uname -r
+          free -m
           df -h
