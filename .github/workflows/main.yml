@@ -11,3 +11,4 @@ jobs:
         run: |
           which python3
           which jq
+          jq -V
