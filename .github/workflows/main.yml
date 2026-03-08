@@ -9,6 +9,4 @@ jobs:
     steps:
       - name: show system
         run: |
-          uname -r
-          free -m
-          df -h
+          which python3
