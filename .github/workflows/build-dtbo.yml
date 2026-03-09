@@ -1,0 +1,35 @@
+name: Build DTBO
+
+on:
+  push:
+    paths:
+      - "8211f.dts"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install device-tree-compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y device-tree-compiler
+
+      - name: Compile DTS to DTBO
+        run: |
+          dtc -@ -I dts -O dtb -o 8211f.dtbo 8211f.dts
+
+      - name: Verify dtbo
+        run: |
+          file 8211f.dtbo
+          dtc -I dtb -O dts 8211f.dtbo | head -n 40
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dtbo
+          path: 8211f.dtbo
