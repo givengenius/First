@@ -1,0 +1,34 @@
+name: Decompile DTB
+
+on:
+  push:
+    paths:
+      - "*.dtb"
+  workflow_dispatch:
+
+jobs:
+  decompile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install device-tree-compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y device-tree-compiler
+
+      - name: Decompile dtb to dts
+        run: |
+          dtc -I dtb -O dts -o output.dts sun50i-h618-vontar-h618.dtb
+
+      - name: Show first lines
+        run: |
+          head -n 50 output.dts
+
+      - name: Upload DTS
+        uses: actions/upload-artifact@v4
+        with:
+          name: dts-file
+          path: output.dts
